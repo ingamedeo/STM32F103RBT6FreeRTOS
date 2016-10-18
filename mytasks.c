@@ -13,7 +13,7 @@
 static SemaphoreHandle_t xButtonUser1Semaphore = NULL;
 static SemaphoreHandle_t xButtonUser2Semaphore = NULL;
 QueueHandle_t RxQueue, TxQueue;
-char stringbuffer[39];
+char stringbuffer[50];
 
 // 1 * 200ms on, 4 * 200ms off
 void vLEDFlashTask( void *pvParameters ) {
@@ -184,6 +184,41 @@ void vButtonLEDsTask( void *pvParameters )
 //     vTaskDelayUntil(&xLastWakeTime,xFrequency);
 //     }
 // }
+
+size_t count_digits(uint16_t val) {
+	size_t count = 0;
+	
+	//If already 0 the method below won't work. we already know 0 is 1 digit long
+	if (val==0) {
+		return 1;
+	}
+	
+    while(val != 0) { //Until we get to 0 (rounded since uint!)
+           val /= 10;
+           ++count;
+       }
+	   return count;
+}
+
+void from_uint16_t_to_chars(char* str, size_t len, uint32_t val) {
+  uint8_t i;
+  
+  memset(str, 0, sizeof(str));
+
+  for(i=1; i<=len; i++) {
+	  
+	  /*
+	  	Example: if len=4, start from address 3 back to 0
+	  */
+	  
+	// add '0' to convert to char
+    str[len-i] = (uint8_t) ((val % 10) + '0'); //Start from last digit (right to left)
+    val/=10; //Next digit
+  }
+
+  //str[i-1] = '\0'; //String termination
+}
+
 void vUSARTTask( void *pvParameters ) {
 
   TickType_t xLastWakeTime;
@@ -204,22 +239,19 @@ void vUSARTTask( void *pvParameters ) {
 	  
 	  uint16_t light = BH1750readLightLevel();
 	  
-	  sprintf(stringbuffer, "Light: %d lux\r\n", light);
+	  //USART1PutString(stringbuffer,strlen( stringbuffer ));
+	  //sprintf(stringbuffer, "Light: %d lux\r\n", light);
+	  
+	  char* start = "Light: ";
+	  strcpy( stringbuffer, start );
+	  
+	  char lightstr[20];
+	  from_uint16_t_to_chars(lightstr, count_digits(light), light);
+	  
+	  strcat(stringbuffer, lightstr);
+	  strcat(stringbuffer, " lux \r\n\0");
 	  
 	  USART1PutString(stringbuffer,strlen( stringbuffer ));
-	  
-	  //char *buf = malloc (6);
-	  //uint16_t light = BH1750readLightLevel();
-	  //int i=0;
-	  //for (i=0; i<light; i++) {
-	  //	LEDOn(1);
-		//delay_ms(50);
-		//LEDOff(1);
-		//delay_ms(50);
-	  //}
-	  //sprintf (lightBuffer, "%u lux", light);
-	  //lightBuffer[9] = '\0';
-	  //USART1PutString(lightBuffer,strlen( lightBuffer ));
 	  
       //Echo back
       //if (Usart1GetChar(&ch))

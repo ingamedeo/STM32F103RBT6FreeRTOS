@@ -64,6 +64,7 @@ BUTTONS      = $(DRIVERS)/Buttons
 USART        = $(DRIVERS)/Usart
 I2C			 = $(DRIVERS)/i2c
 BH1750			 = $(DRIVERS)/BH1750
+#SSD1306			 = $(DRIVERS)/SSD1306
 #LCD          = $(DRIVERS)/Lcd
 #SPIFLASH     = $(DRIVERS)/SpiFlash
 ##source list
@@ -81,6 +82,10 @@ SRC += $(BUTTONS)/buttons.c
 SRC += $(USART)/usart.c
 SRC += $(I2C)/i2c1_remap.c
 SRC += $(BH1750)/bh1750.c
+#SRC += $(SSD1306)/ssd1306.c
+
+#SRC += $(shell find $(U8GLIB) -name "*.c")
+
 #SRC += $(LCD)/lcd.c
 #SRC += $(LCD)/bmp.c
 #SRC += $(LCD)/ads7843drv.c
@@ -121,6 +126,7 @@ UINCDIR += $(BUTTONS)
 UINCDIR += $(USART)
 UINCDIR += $(I2C) 
 UINCDIR += $(BH1750)
+#UINCDIR += $(SSD1306)
 #UINCDIR += $(LCD)   
 UINCDIR += $(SPIFLASH)  
 UINCDIR += $(UTILITIES)

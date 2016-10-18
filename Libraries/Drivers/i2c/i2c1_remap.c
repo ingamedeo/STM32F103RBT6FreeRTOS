@@ -56,7 +56,7 @@ void I2C1_Init()
 	//xSemStartCondition = xSemaphoreCreateBinary();
 
 	/* Remap I2C1 */
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+	//RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	//GPIO_PinRemapConfig(GPIO_Remap_I2C1, ENABLE);
 
 	/* I2C clock & GPIOB enable */
@@ -67,8 +67,13 @@ void I2C1_Init()
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Pin = I2C_SCL_PIN | I2C_SDA_PIN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD; // Open Drain, I2C bus pulled high externally
 	GPIO_Init(I2C_GPIO, &GPIO_InitStructure);
+	
+    I2C_DeInit(I2C1);
+	
+	/* Enable I2C*/
+    I2C_Cmd(I2C1, ENABLE);
 
 //	/* NVIC Configuration */
 //	NVIC_InitTypeDef NVIC_InitStructure;
@@ -90,13 +95,10 @@ void I2C1_Init()
 	I2C_InitStructure.I2C_ClockSpeed = I2C_CLOCK_SPEED;
 	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
 	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStructure.I2C_OwnAddress1 = 0x00;
+	I2C_InitStructure.I2C_OwnAddress1 = 0x039;
 	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
 	I2C_Init(I2C_PERIPHERAL, &I2C_InitStructure);
-
-	/* Enable I2C*/
-	I2C_Cmd(I2C_PERIPHERAL, ENABLE);
 
 	/* Enable the I2C1 interrupts */
 //	I2C_ITConfig(I2C_PERIPHERAL, I2C_IT_EVT, ENABLE);
@@ -118,7 +120,16 @@ ErrorStatus I2C1_BeginTransmission(uint8_t Address)
 
 	/* TODO: Replace with RTOS stuff */
 	/* Make sure the START condition has been released on the bus */
-	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_MODE_SELECT));
+	int TimeOut;
+	
+	TimeOut = I2C_TIMEOUT;
+	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_MODE_SELECT)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            //turn_on_error_led_pin();       // Error LED
+            return ERROR;
+        }
+	}
 
 //	/* Try to take the semaphore */
 //	if (!xSemaphoreTake(xSemStartCondition, portMAX_DELAY))
@@ -131,7 +142,17 @@ ErrorStatus I2C1_BeginTransmission(uint8_t Address)
 
 	/* TODO: Replace with RTOS stuff */
 	/* Make sure a slave has acknowledge the address */
-	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+	TimeOut = I2C_TIMEOUT;
+	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            // Send I2C1 STOP Condition
+            I2C_GenerateSTOP(I2C_PERIPHERAL, ENABLE);
+            //turn_on_error_led_pin();        // Error LED
+
+            return ERROR;
+        }
+	}
 	return SUCCESS;
 }
 
@@ -160,7 +181,17 @@ ErrorStatus I2C1_Write(uint8_t Data)
 	/* TODO: Replace with RTOS stuff,
 	 * see http://www.freertos.org/FreeRTOS_Support_Forum_Archive/September_2013/freertos_Best_way_to_handle_While_on_buses_8688418.html */
 	/* Make sure data has been transmitted */
-	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	int TimeOut = I2C_TIMEOUT;
+	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_BYTE_TRANSMITTED)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            // Send I2C1 STOP Condition
+            I2C_GenerateSTOP(I2C_PERIPHERAL, ENABLE);
+            //turn_on_error_led_pin();        // Error LED
+
+            return ERROR;
+        }
+	}
 
 	return SUCCESS;
 }
@@ -187,23 +218,56 @@ ErrorStatus I2C1_RequestFrom(uint8_t Address, uint8_t* Storage, uint16_t NumByte
 	But if you're the only one who can start a transaction, who cares?
 	*/
 	
-	while (I2C_GetFlagStatus(I2C_PERIPHERAL, I2C_FLAG_BUSY));
+	int TimeOut;
+	
+	TimeOut = I2C_TIMEOUT;
+	while (I2C_GetFlagStatus(I2C_PERIPHERAL, I2C_FLAG_BUSY)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            //turn_on_error_led_pin();       // Error LED
+            return ERROR;
+        }
+	}
 
 	/* Send START condition */
 	I2C_GenerateSTART(I2C_PERIPHERAL, ENABLE);
 
 	/* TODO: Replace with RTOS stuff */
 	/* Make sure the START condition has been released on the bus */
-	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_MODE_SELECT));
+	
+	
+	TimeOut = I2C_TIMEOUT;
+	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_MODE_SELECT)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            //turn_on_error_led_pin();       // Error LED
+            return ERROR;
+        }
+	}
+
+//	/* Try to take the semaphore */
+//	if (!xSemaphoreTake(xSemStartCondition, portMAX_DELAY))
+//	{
+//		while (1);
+//	}
 
 	/* Send the address for read */
 	I2C_Send7bitAddress(I2C_PERIPHERAL, Address << 1, I2C_Direction_Receiver);
 
 	/* TODO: Replace with RTOS stuff */
 	/* Make sure a slave has acknowledge the address */
-	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED));
+	TimeOut = I2C_TIMEOUT;
+	while (!I2C_CheckEvent(I2C_PERIPHERAL, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED)) {
+        TimeOut--;
+        if (TimeOut == 0){
+            // Send I2C1 STOP Condition
+            I2C_GenerateSTOP(I2C_PERIPHERAL, ENABLE);
+            //turn_on_error_led_pin();        // Error LED
 
-
+            return ERROR;
+        }
+	}
+	
 	/* While there is data to be read */
 	while (NumByteToRead)
 	{
@@ -236,10 +300,14 @@ ErrorStatus I2C1_RequestFrom(uint8_t Address, uint8_t* Storage, uint16_t NumByte
  * @retval	1: There is a slave at the address [Address]
  * @retval	0: There is no slave there
  */
-uint8_t I2C1_SlaveAtAddress(const uint8_t Address)
-{
-	/* TODO: Implement? */
-	return SUCCESS;
+uint8_t I2C1_SlaveAtAddress(const uint8_t Address) {
+	if (I2C1_BeginTransmission(Address)==SUCCESS) {
+		I2C1_EndTransmission();
+		return 1;
+	} else {
+		I2C1_EndTransmission();
+		return 0;
+	}
 }
 
 /* Interrupt Handlers --------------------------------------------------------*/

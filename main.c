@@ -3,12 +3,14 @@
 //#include "stm32f10x_it.h"
 #include "mytasks.h"
 
+//#include "ssd1306.h"
+
 //task priorities
 #define mainLED_TASK_PRIORITY			( tskIDLE_PRIORITY )
 #define mainButton_TASK_PRIORITY                   ( tskIDLE_PRIORITY )
 #define mainButtonLEDs_TASK_PRIORITY                   ( tskIDLE_PRIORITY + 1 )
 #define mainUSART_TASK_PRIORITY                   ( tskIDLE_PRIORITY )
-#define mainUSART_TASK_STACK_SIZE configMINIMAL_STACK_SIZE+50
+#define mainUSART_TASK_STACK_SIZE configMINIMAL_STACK_SIZE+100
 
 void DelayAAA(__IO uint32_t nCount)
 {
@@ -22,8 +24,7 @@ int main(void)
   Usart1Init();    
   ButtonsInit();
   BH1750Init(BH1750_CONTINUOUS_HIGH_RES_MODE);
-  //LCD_Init();
-  //Usart1Init();
+  
   xTaskCreate( vLEDFlashTask, ( const char * ) "LED", configMINIMAL_STACK_SIZE, NULL, mainLED_TASK_PRIORITY, NULL );
   xTaskCreate( vButtonCheckTask, ( const char * ) "Button", configMINIMAL_STACK_SIZE, NULL, mainButton_TASK_PRIORITY, NULL );
   xTaskCreate( vButtonLEDsTask, ( const char * ) "ButtonLED", configMINIMAL_STACK_SIZE, NULL, mainButtonLEDs_TASK_PRIORITY, NULL );

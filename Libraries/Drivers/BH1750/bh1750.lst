@@ -1,0 +1,1417 @@
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 4	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"bh1750.c"
+  14              	@ GNU C (GNU Tools for ARM Embedded Processors) version 4.9.3 20150529 (release) [ARM/embedded-4_9-
+  15              	@	compiled by GNU C version 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2336.9.00), GMP vers
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed:  -I . -I ./Libraries/CMSIS/CM3/CoreSupport
+  18              	@ -I ./Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+  19              	@ -I ./Libraries/STM32F10x_StdPeriph_Driver/inc -I ./Libraries/Drivers/Leds
+  20              	@ -I ./Libraries/Drivers/Buttons -I ./Libraries/Drivers/Usart
+  21              	@ -I ./Libraries/Drivers/i2c -I ./Libraries/Drivers/BH1750
+  22              	@ -I ./Libraries/Drivers/Utilities -I ./FreeRTOS/Source/include
+  23              	@ -I ./FreeRTOS/Source/portable/GCC/ARM_CM3 -imultilib armv7-m
+  24              	@ -iprefix /usr/local/Cellar/arm-none-eabi-gcc/20150921/bin/../lib/gcc/arm-none-eabi/4.9.3/
+  25              	@ -isysroot /usr/local/Cellar/arm-none-eabi-gcc/20150921/bin/../arm-none-eabi
+  26              	@ -MD Libraries/Drivers/BH1750/bh1750.d -MF .dep/bh1750.o.d -MP
+  27              	@ -MQ Libraries/Drivers/BH1750/bh1750.o -D__USES_INITFINI__ -D STM32F10X_MD
+  28              	@ -D USE_STDPERIPH_DRIVER -D GCC_ARMCM3 -D RUN_FROM_FLASH=1
+  29              	@ Libraries/Drivers/BH1750/bh1750.c -mcpu=cortex-m3 -mthumb
+  30              	@ -auxbase-strip Libraries/Drivers/BH1750/bh1750.o -gdwarf-2 -Os -Wall
+  31              	@ -Wstrict-prototypes -fomit-frame-pointer -fverbose-asm
+  32              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  33              	@ -fbranch-count-reg -fcaller-saves -fcombine-stack-adjustments -fcommon
+  34              	@ -fcompare-elim -fcprop-registers -fcrossjumping -fcse-follow-jumps
+  35              	@ -fdefer-pop -fdelete-null-pointer-checks -fdevirtualize
+  36              	@ -fdevirtualize-speculatively -fdwarf2-cfi-asm -fearly-inlining
+  37              	@ -feliminate-unused-debug-types -fexpensive-optimizations
+  38              	@ -fforward-propagate -ffunction-cse -fgcse -fgcse-lm -fgnu-runtime
+  39              	@ -fgnu-unique -fguess-branch-probability -fhoist-adjacent-loads -fident
+  40              	@ -fif-conversion -fif-conversion2 -findirect-inlining -finline
+  41              	@ -finline-atomics -finline-functions -finline-functions-called-once
+  42              	@ -finline-small-functions -fipa-cp -fipa-profile -fipa-pure-const
+  43              	@ -fipa-reference -fipa-sra -fira-hoist-pressure -fira-share-save-slots
+  44              	@ -fira-share-spill-slots -fisolate-erroneous-paths-dereference -fivopts
+  45              	@ -fkeep-static-consts -fleading-underscore -flifetime-dse -fmath-errno
+  46              	@ -fmerge-constants -fmerge-debug-strings -fomit-frame-pointer
+  47              	@ -foptimize-sibling-calls -fpartial-inlining -fpeephole -fpeephole2
+  48              	@ -fprefetch-loop-arrays -freg-struct-return -freorder-blocks
+  49              	@ -freorder-functions -frerun-cse-after-loop
+  50              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  51              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  52              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  53              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fschedule-insns2
+  54              	@ -fsection-anchors -fshow-column -fsigned-zeros -fsplit-ivs-in-unroller
+  55              	@ -fsplit-wide-types -fstrict-aliasing -fstrict-overflow
+  56              	@ -fstrict-volatile-bitfields -fsync-libcalls -fthread-jumps
+  57              	@ -ftoplevel-reorder -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 2
+
+
+  58              	@ -ftree-ccp -ftree-ch -ftree-coalesce-vars -ftree-copy-prop
+  59              	@ -ftree-copyrename -ftree-cselim -ftree-dce -ftree-dominator-opts
+  60              	@ -ftree-dse -ftree-forwprop -ftree-fre -ftree-loop-if-convert
+  61              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  62              	@ -ftree-parallelize-loops= -ftree-phiprop -ftree-pre -ftree-pta
+  63              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slsr -ftree-sra
+  64              	@ -ftree-switch-conversion -ftree-tail-merge -ftree-ter -ftree-vrp
+  65              	@ -funit-at-a-time -fvar-tracking -fvar-tracking-assignments -fverbose-asm
+  66              	@ -fzero-initialized-in-bss -mfix-cortex-m3-ldrd -mlittle-endian -mlra
+  67              	@ -mpic-data-is-text-relative -msched-prolog -mthumb -munaligned-access
+  68              	@ -mvectorize-with-neon-quad
+  69              	
+  70              		.text
+  71              	.Ltext0:
+  72              		.cfi_sections	.debug_frame
+  73              		.global	__aeabi_i2d
+  74              		.global	__aeabi_ddiv
+  75              		.global	__aeabi_d2uiz
+  76              		.align	1
+  77              		.global	BH1750readLightLevel
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	BH1750readLightLevel, %function
+  81              	BH1750readLightLevel:
+  82              	.LFB36:
+  83              		.file 1 "Libraries/Drivers/BH1750/bh1750.c"
+   1:Libraries/Drivers/BH1750/bh1750.c **** /*
+   2:Libraries/Drivers/BH1750/bh1750.c ****  * bh1750.c
+   3:Libraries/Drivers/BH1750/bh1750.c ****  *
+   4:Libraries/Drivers/BH1750/bh1750.c ****  * @author Amedeo <ingamedeo[at]gmail[dot]com
+   5:Libraries/Drivers/BH1750/bh1750.c ****  * @date 08/10/2016
+   6:Libraries/Drivers/BH1750/bh1750.c ****  *
+   7:Libraries/Drivers/BH1750/bh1750.c ****  */
+   8:Libraries/Drivers/BH1750/bh1750.c **** 
+   9:Libraries/Drivers/BH1750/bh1750.c **** #include "bh1750.h"
+  10:Libraries/Drivers/BH1750/bh1750.c **** 
+  11:Libraries/Drivers/BH1750/bh1750.c **** void BH1750Init(uint8_t mode) {
+  12:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_Init();
+  13:Libraries/Drivers/BH1750/bh1750.c ****   BH1750configure(mode);
+  14:Libraries/Drivers/BH1750/bh1750.c **** }
+  15:Libraries/Drivers/BH1750/bh1750.c **** 
+  16:Libraries/Drivers/BH1750/bh1750.c **** void BH1750configure(uint8_t mode) {
+  17:Libraries/Drivers/BH1750/bh1750.c **** 
+  18:Libraries/Drivers/BH1750/bh1750.c ****     switch (mode) {
+  19:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_CONTINUOUS_HIGH_RES_MODE:
+  20:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_CONTINUOUS_HIGH_RES_MODE_2:
+  21:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_CONTINUOUS_LOW_RES_MODE:
+  22:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_ONE_TIME_HIGH_RES_MODE:
+  23:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_ONE_TIME_HIGH_RES_MODE_2:
+  24:Libraries/Drivers/BH1750/bh1750.c ****         case BH1750_ONE_TIME_LOW_RES_MODE:
+  25:Libraries/Drivers/BH1750/bh1750.c ****             // apply a valid mode change
+  26:Libraries/Drivers/BH1750/bh1750.c ****             write8(mode);
+  27:Libraries/Drivers/BH1750/bh1750.c ****             //delay_ms(10);
+  28:Libraries/Drivers/BH1750/bh1750.c ****             break;
+  29:Libraries/Drivers/BH1750/bh1750.c ****         default:
+  30:Libraries/Drivers/BH1750/bh1750.c ****             // Invalid measurement mode
+  31:Libraries/Drivers/BH1750/bh1750.c ****             break;
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 3
+
+
+  32:Libraries/Drivers/BH1750/bh1750.c ****     }
+  33:Libraries/Drivers/BH1750/bh1750.c **** }
+  34:Libraries/Drivers/BH1750/bh1750.c **** 
+  35:Libraries/Drivers/BH1750/bh1750.c **** uint16_t BH1750readLightLevel(void) {
+  84              		.loc 1 35 0
+  85              		.cfi_startproc
+  86              		@ args = 0, pretend = 0, frame = 8
+  87              		@ frame_needed = 0, uses_anonymous_args = 0
+  88 0000 13B5     		push	{r0, r1, r4, lr}	@
+  89              	.LCFI0:
+  90              		.cfi_def_cfa_offset 16
+  91              		.cfi_offset 4, -8
+  92              		.cfi_offset 14, -4
+  36:Libraries/Drivers/BH1750/bh1750.c **** 	
+  37:Libraries/Drivers/BH1750/bh1750.c ****   uint8_t dataRecv[2];
+  38:Libraries/Drivers/BH1750/bh1750.c ****   uint16_t level;
+  39:Libraries/Drivers/BH1750/bh1750.c ****   
+  40:Libraries/Drivers/BH1750/bh1750.c ****   //I2C1_BeginTransmission(BH1750_I2CADDR);
+  41:Libraries/Drivers/BH1750/bh1750.c ****   /*
+  42:Libraries/Drivers/BH1750/bh1750.c ****   NOTE: Calling I2C1_BeginTransmission here locks up the bus!
+  43:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_RequestFrom inits the bus already! (Generates START req)
+  44:Libraries/Drivers/BH1750/bh1750.c ****    */
+  45:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_RequestFrom(BH1750_I2CADDR, dataRecv, 2);
+  93              		.loc 1 45 0
+  94 0002 0222     		movs	r2, #2	@,
+  95 0004 01A9     		add	r1, sp, #4	@,,
+  96 0006 2320     		movs	r0, #35	@,
+  97 0008 FFF7FEFF 		bl	I2C1_RequestFrom	@
+  98              	.LVL0:
+  46:Libraries/Drivers/BH1750/bh1750.c **** 
+  47:Libraries/Drivers/BH1750/bh1750.c ****   level = dataRecv[0];
+  48:Libraries/Drivers/BH1750/bh1750.c ****   level <<= 8;
+  49:Libraries/Drivers/BH1750/bh1750.c ****   level |= dataRecv[1];
+  99              		.loc 1 49 0
+ 100 000c 9DF80530 		ldrb	r3, [sp, #5]	@ zero_extendqisi2	@ dataRecv, dataRecv
+  47:Libraries/Drivers/BH1750/bh1750.c ****   level <<= 8;
+ 101              		.loc 1 47 0
+ 102 0010 9DF80440 		ldrb	r4, [sp, #4]	@ zero_extendqisi2	@ level, dataRecv
+ 103              	.LVL1:
+ 104              		.loc 1 49 0
+ 105 0014 43EA0424 		orr	r4, r3, r4, lsl #8	@, level, dataRecv, level,
+ 106              	.LVL2:
+  50:Libraries/Drivers/BH1750/bh1750.c **** 
+  51:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_EndTransmission();
+ 107              		.loc 1 51 0
+ 108 0018 FFF7FEFF 		bl	I2C1_EndTransmission	@
+ 109              	.LVL3:
+  52:Libraries/Drivers/BH1750/bh1750.c **** 
+  53:Libraries/Drivers/BH1750/bh1750.c ****   level = level/1.2; // convert to lux
+ 110              		.loc 1 53 0
+ 111 001c 2046     		mov	r0, r4	@, level
+ 112 001e FFF7FEFF 		bl	__aeabi_i2d	@
+ 113              	.LVL4:
+ 114 0022 4FF03332 		mov	r2, #858993459	@,
+ 115 0026 044B     		ldr	r3, .L2	@,
+ 116 0028 FFF7FEFF 		bl	__aeabi_ddiv	@
+ 117              	.LVL5:
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 4
+
+
+ 118 002c FFF7FEFF 		bl	__aeabi_d2uiz	@
+ 119              	.LVL6:
+  54:Libraries/Drivers/BH1750/bh1750.c **** 
+  55:Libraries/Drivers/BH1750/bh1750.c ****   return level;
+  56:Libraries/Drivers/BH1750/bh1750.c **** }
+ 120              		.loc 1 56 0
+ 121 0030 80B2     		uxth	r0, r0	@,
+ 122 0032 02B0     		add	sp, sp, #8	@,,
+ 123              	.LCFI1:
+ 124              		.cfi_def_cfa_offset 8
+ 125              		@ sp needed	@
+ 126 0034 10BD     		pop	{r4, pc}	@
+ 127              	.L3:
+ 128 0036 00BF     		.align	2
+ 129              	.L2:
+ 130 0038 3333F33F 		.word	1072902963
+ 131              		.cfi_endproc
+ 132              	.LFE36:
+ 133              		.size	BH1750readLightLevel, .-BH1750readLightLevel
+ 134              		.align	1
+ 135              		.global	write8
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	write8, %function
+ 139              	write8:
+ 140              	.LFB37:
+  57:Libraries/Drivers/BH1750/bh1750.c **** 
+  58:Libraries/Drivers/BH1750/bh1750.c **** 
+  59:Libraries/Drivers/BH1750/bh1750.c **** /*********************************************************************/
+  60:Libraries/Drivers/BH1750/bh1750.c **** 
+  61:Libraries/Drivers/BH1750/bh1750.c **** 
+  62:Libraries/Drivers/BH1750/bh1750.c **** void write8(uint8_t d) {
+ 141              		.loc 1 62 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              	.LVL7:
+ 146 003c 10B5     		push	{r4, lr}	@
+ 147              	.LCFI2:
+ 148              		.cfi_def_cfa_offset 8
+ 149              		.cfi_offset 4, -8
+ 150              		.cfi_offset 14, -4
+ 151              		.loc 1 62 0
+ 152 003e 0446     		mov	r4, r0	@ d, d
+  63:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_BeginTransmission(BH1750_I2CADDR);
+ 153              		.loc 1 63 0
+ 154 0040 2320     		movs	r0, #35	@,
+ 155              	.LVL8:
+ 156 0042 FFF7FEFF 		bl	I2C1_BeginTransmission	@
+ 157              	.LVL9:
+  64:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_Write(d);
+ 158              		.loc 1 64 0
+ 159 0046 2046     		mov	r0, r4	@, d
+ 160 0048 FFF7FEFF 		bl	I2C1_Write	@
+ 161              	.LVL10:
+  65:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_EndTransmission();
+  66:Libraries/Drivers/BH1750/bh1750.c **** }
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 5
+
+
+ 162              		.loc 1 66 0
+ 163 004c BDE81040 		pop	{r4, lr}	@
+ 164              	.LCFI3:
+ 165              		.cfi_restore 14
+ 166              		.cfi_restore 4
+ 167              		.cfi_def_cfa_offset 0
+  65:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_EndTransmission();
+ 168              		.loc 1 65 0
+ 169 0050 FFF7FEBF 		b	I2C1_EndTransmission	@
+ 170              	.LVL11:
+ 171              		.cfi_endproc
+ 172              	.LFE37:
+ 173              		.size	write8, .-write8
+ 174              		.align	1
+ 175              		.global	BH1750configure
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.type	BH1750configure, %function
+ 179              	BH1750configure:
+ 180              	.LFB35:
+  16:Libraries/Drivers/BH1750/bh1750.c **** 
+ 181              		.loc 1 16 0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185              		@ link register save eliminated.
+ 186              	.LVL12:
+ 187 0054 A0F11003 		sub	r3, r0, #16	@ tmp115, mode,
+ 188 0058 DBB2     		uxtb	r3, r3	@ D.5874, tmp115
+ 189 005a 132B     		cmp	r3, #19	@ D.5874,
+ 190 005c 07D8     		bhi	.L5	@,
+ 191 005e 0122     		movs	r2, #1	@ tmp117,
+ 192 0060 02FA03F3 		lsl	r3, r2, r3	@ D.5875, tmp117, D.5874
+ 193 0064 13F00B1F 		tst	r3, #720907	@ D.5875,
+ 194 0068 01D0     		beq	.L5	@,
+  26:Libraries/Drivers/BH1750/bh1750.c ****             //delay_ms(10);
+ 195              		.loc 1 26 0
+ 196 006a FFF7FEBF 		b	write8	@
+ 197              	.LVL13:
+ 198              	.L5:
+ 199 006e 7047     		bx	lr	@
+ 200              		.cfi_endproc
+ 201              	.LFE35:
+ 202              		.size	BH1750configure, .-BH1750configure
+ 203              		.align	1
+ 204              		.global	BH1750Init
+ 205              		.thumb
+ 206              		.thumb_func
+ 207              		.type	BH1750Init, %function
+ 208              	BH1750Init:
+ 209              	.LFB34:
+  11:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_Init();
+ 210              		.loc 1 11 0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214              	.LVL14:
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 6
+
+
+ 215 0070 10B5     		push	{r4, lr}	@
+ 216              	.LCFI4:
+ 217              		.cfi_def_cfa_offset 8
+ 218              		.cfi_offset 4, -8
+ 219              		.cfi_offset 14, -4
+  11:Libraries/Drivers/BH1750/bh1750.c ****   I2C1_Init();
+ 220              		.loc 1 11 0
+ 221 0072 0446     		mov	r4, r0	@ mode, mode
+  12:Libraries/Drivers/BH1750/bh1750.c ****   BH1750configure(mode);
+ 222              		.loc 1 12 0
+ 223 0074 FFF7FEFF 		bl	I2C1_Init	@
+ 224              	.LVL15:
+  13:Libraries/Drivers/BH1750/bh1750.c **** }
+ 225              		.loc 1 13 0
+ 226 0078 2046     		mov	r0, r4	@, mode
+  14:Libraries/Drivers/BH1750/bh1750.c **** 
+ 227              		.loc 1 14 0
+ 228 007a BDE81040 		pop	{r4, lr}	@
+ 229              	.LCFI5:
+ 230              		.cfi_restore 14
+ 231              		.cfi_restore 4
+ 232              		.cfi_def_cfa_offset 0
+  13:Libraries/Drivers/BH1750/bh1750.c **** }
+ 233              		.loc 1 13 0
+ 234 007e FFF7FEBF 		b	BH1750configure	@
+ 235              	.LVL16:
+ 236              		.cfi_endproc
+ 237              	.LFE34:
+ 238              		.size	BH1750Init, .-BH1750Init
+ 239              	.Letext0:
+ 240              		.file 2 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/machine/_default_types
+ 241              		.file 3 "/usr/local/Cellar/arm-none-eabi-gcc/20150921/arm-none-eabi/include/sys/_stdint.h"
+ 242              		.file 4 "./Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/STM32f10x.h"
+ 243              		.file 5 "./Libraries/Drivers/i2c/i2c1_remap.h"
+ 244              		.file 6 "./Libraries/CMSIS/CM3/CoreSupport/core_cm3.h"
+ 245 0082 00BF     		.section	.debug_info,"",%progbits
+ 246              	.Ldebug_info0:
+ 247 0000 88020000 		.4byte	0x288
+ 248 0004 0200     		.2byte	0x2
+ 249 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 250 000a 04       		.byte	0x4
+ 251 000b 01       		.uleb128 0x1
+ 252 000c 08010000 		.4byte	.LASF30
+ 253 0010 01       		.byte	0x1
+ 254 0011 8C010000 		.4byte	.LASF31
+ 255 0015 29020000 		.4byte	.LASF32
+ 256 0019 00000000 		.4byte	.Ltext0
+ 257 001d 82000000 		.4byte	.Letext0
+ 258 0021 00000000 		.4byte	.Ldebug_line0
+ 259 0025 02       		.uleb128 0x2
+ 260 0026 08       		.byte	0x8
+ 261 0027 04       		.byte	0x4
+ 262 0028 31000000 		.4byte	.LASF0
+ 263 002c 02       		.uleb128 0x2
+ 264 002d 02       		.byte	0x2
+ 265 002e 07       		.byte	0x7
+ 266 002f AC000000 		.4byte	.LASF1
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 7
+
+
+ 267 0033 02       		.uleb128 0x2
+ 268 0034 01       		.byte	0x1
+ 269 0035 06       		.byte	0x6
+ 270 0036 1D020000 		.4byte	.LASF2
+ 271 003a 03       		.uleb128 0x3
+ 272 003b 0E000000 		.4byte	.LASF5
+ 273 003f 02       		.byte	0x2
+ 274 0040 1D       		.byte	0x1d
+ 275 0041 45000000 		.4byte	0x45
+ 276 0045 02       		.uleb128 0x2
+ 277 0046 01       		.byte	0x1
+ 278 0047 08       		.byte	0x8
+ 279 0048 7F000000 		.4byte	.LASF3
+ 280 004c 02       		.uleb128 0x2
+ 281 004d 02       		.byte	0x2
+ 282 004e 05       		.byte	0x5
+ 283 004f FE000000 		.4byte	.LASF4
+ 284 0053 03       		.uleb128 0x3
+ 285 0054 CC000000 		.4byte	.LASF6
+ 286 0058 02       		.byte	0x2
+ 287 0059 2B       		.byte	0x2b
+ 288 005a 2C000000 		.4byte	0x2c
+ 289 005e 02       		.uleb128 0x2
+ 290 005f 04       		.byte	0x4
+ 291 0060 05       		.byte	0x5
+ 292 0061 14020000 		.4byte	.LASF7
+ 293 0065 02       		.uleb128 0x2
+ 294 0066 04       		.byte	0x4
+ 295 0067 07       		.byte	0x7
+ 296 0068 D7000000 		.4byte	.LASF8
+ 297 006c 02       		.uleb128 0x2
+ 298 006d 08       		.byte	0x8
+ 299 006e 05       		.byte	0x5
+ 300 006f 00000000 		.4byte	.LASF9
+ 301 0073 02       		.uleb128 0x2
+ 302 0074 08       		.byte	0x8
+ 303 0075 07       		.byte	0x7
+ 304 0076 68000000 		.4byte	.LASF10
+ 305 007a 04       		.uleb128 0x4
+ 306 007b 04       		.byte	0x4
+ 307 007c 05       		.byte	0x5
+ 308 007d 696E7400 		.ascii	"int\000"
+ 309 0081 02       		.uleb128 0x2
+ 310 0082 04       		.byte	0x4
+ 311 0083 07       		.byte	0x7
+ 312 0084 AE010000 		.4byte	.LASF11
+ 313 0088 03       		.uleb128 0x3
+ 314 0089 C0010000 		.4byte	.LASF12
+ 315 008d 03       		.byte	0x3
+ 316 008e 14       		.byte	0x14
+ 317 008f 3A000000 		.4byte	0x3a
+ 318 0093 03       		.uleb128 0x3
+ 319 0094 0B020000 		.4byte	.LASF13
+ 320 0098 03       		.byte	0x3
+ 321 0099 1A       		.byte	0x1a
+ 322 009a 53000000 		.4byte	0x53
+ 323 009e 02       		.uleb128 0x2
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 8
+
+
+ 324 009f 04       		.byte	0x4
+ 325 00a0 07       		.byte	0x7
+ 326 00a1 D3010000 		.4byte	.LASF14
+ 327 00a5 05       		.uleb128 0x5
+ 328 00a6 01       		.byte	0x1
+ 329 00a7 04       		.byte	0x4
+ 330 00a8 0C02     		.2byte	0x20c
+ 331 00aa BB000000 		.4byte	0xbb
+ 332 00ae 06       		.uleb128 0x6
+ 333 00af CD010000 		.4byte	.LASF15
+ 334 00b3 00       		.sleb128 0
+ 335 00b4 06       		.uleb128 0x6
+ 336 00b5 8D000000 		.4byte	.LASF16
+ 337 00b9 01       		.sleb128 1
+ 338 00ba 00       		.byte	0
+ 339 00bb 07       		.uleb128 0x7
+ 340 00bc 95000000 		.4byte	.LASF17
+ 341 00c0 04       		.byte	0x4
+ 342 00c1 0C02     		.2byte	0x20c
+ 343 00c3 A5000000 		.4byte	0xa5
+ 344 00c7 08       		.uleb128 0x8
+ 345 00c8 04       		.byte	0x4
+ 346 00c9 88000000 		.4byte	0x88
+ 347 00cd 09       		.uleb128 0x9
+ 348 00ce 88000000 		.4byte	0x88
+ 349 00d2 DD000000 		.4byte	0xdd
+ 350 00d6 0A       		.uleb128 0xa
+ 351 00d7 9E000000 		.4byte	0x9e
+ 352 00db 01       		.byte	0x1
+ 353 00dc 00       		.byte	0
+ 354 00dd 02       		.uleb128 0x2
+ 355 00de 01       		.byte	0x1
+ 356 00df 08       		.byte	0x8
+ 357 00e0 BB010000 		.4byte	.LASF18
+ 358 00e4 0B       		.uleb128 0xb
+ 359 00e5 01       		.byte	0x1
+ 360 00e6 38000000 		.4byte	.LASF33
+ 361 00ea 01       		.byte	0x1
+ 362 00eb 23       		.byte	0x23
+ 363 00ec 01       		.byte	0x1
+ 364 00ed 93000000 		.4byte	0x93
+ 365 00f1 00000000 		.4byte	.LFB36
+ 366 00f5 3C000000 		.4byte	.LFE36
+ 367 00f9 00000000 		.4byte	.LLST0
+ 368 00fd 01       		.byte	0x1
+ 369 00fe 48010000 		.4byte	0x148
+ 370 0102 0C       		.uleb128 0xc
+ 371 0103 18000000 		.4byte	.LASF19
+ 372 0107 01       		.byte	0x1
+ 373 0108 25       		.byte	0x25
+ 374 0109 CD000000 		.4byte	0xcd
+ 375 010d 02       		.byte	0x2
+ 376 010e 91       		.byte	0x91
+ 377 010f 74       		.sleb128 -12
+ 378 0110 0D       		.uleb128 0xd
+ 379 0111 F3010000 		.4byte	.LASF20
+ 380 0115 01       		.byte	0x1
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 9
+
+
+ 381 0116 26       		.byte	0x26
+ 382 0117 93000000 		.4byte	0x93
+ 383 011b 2C000000 		.4byte	.LLST1
+ 384 011f 0E       		.uleb128 0xe
+ 385 0120 0C000000 		.4byte	.LVL0
+ 386 0124 25020000 		.4byte	0x225
+ 387 0128 3E010000 		.4byte	0x13e
+ 388 012c 0F       		.uleb128 0xf
+ 389 012d 01       		.byte	0x1
+ 390 012e 52       		.byte	0x52
+ 391 012f 01       		.byte	0x1
+ 392 0130 32       		.byte	0x32
+ 393 0131 0F       		.uleb128 0xf
+ 394 0132 01       		.byte	0x1
+ 395 0133 51       		.byte	0x51
+ 396 0134 02       		.byte	0x2
+ 397 0135 91       		.byte	0x91
+ 398 0136 74       		.sleb128 -12
+ 399 0137 0F       		.uleb128 0xf
+ 400 0138 01       		.byte	0x1
+ 401 0139 50       		.byte	0x50
+ 402 013a 02       		.byte	0x2
+ 403 013b 08       		.byte	0x8
+ 404 013c 23       		.byte	0x23
+ 405 013d 00       		.byte	0
+ 406 013e 10       		.uleb128 0x10
+ 407 013f 1C000000 		.4byte	.LVL3
+ 408 0143 47020000 		.4byte	0x247
+ 409 0147 00       		.byte	0
+ 410 0148 11       		.uleb128 0x11
+ 411 0149 01       		.byte	0x1
+ 412 014a 04020000 		.4byte	.LASF21
+ 413 014e 01       		.byte	0x1
+ 414 014f 3E       		.byte	0x3e
+ 415 0150 01       		.byte	0x1
+ 416 0151 3C000000 		.4byte	.LFB37
+ 417 0155 54000000 		.4byte	.LFE37
+ 418 0159 60000000 		.4byte	.LLST2
+ 419 015d 01       		.byte	0x1
+ 420 015e A2010000 		.4byte	0x1a2
+ 421 0162 12       		.uleb128 0x12
+ 422 0163 6400     		.ascii	"d\000"
+ 423 0165 01       		.byte	0x1
+ 424 0166 3E       		.byte	0x3e
+ 425 0167 88000000 		.4byte	0x88
+ 426 016b 8C000000 		.4byte	.LLST3
+ 427 016f 0E       		.uleb128 0xe
+ 428 0170 46000000 		.4byte	.LVL9
+ 429 0174 51020000 		.4byte	0x251
+ 430 0178 83010000 		.4byte	0x183
+ 431 017c 0F       		.uleb128 0xf
+ 432 017d 01       		.byte	0x1
+ 433 017e 50       		.byte	0x50
+ 434 017f 02       		.byte	0x2
+ 435 0180 08       		.byte	0x8
+ 436 0181 23       		.byte	0x23
+ 437 0182 00       		.byte	0
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 10
+
+
+ 438 0183 0E       		.uleb128 0xe
+ 439 0184 4C000000 		.4byte	.LVL10
+ 440 0188 69020000 		.4byte	0x269
+ 441 018c 97010000 		.4byte	0x197
+ 442 0190 0F       		.uleb128 0xf
+ 443 0191 01       		.byte	0x1
+ 444 0192 50       		.byte	0x50
+ 445 0193 02       		.byte	0x2
+ 446 0194 74       		.byte	0x74
+ 447 0195 00       		.sleb128 0
+ 448 0196 00       		.byte	0
+ 449 0197 13       		.uleb128 0x13
+ 450 0198 54000000 		.4byte	.LVL11
+ 451 019c 01       		.byte	0x1
+ 452 019d 47020000 		.4byte	0x247
+ 453 01a1 00       		.byte	0
+ 454 01a2 14       		.uleb128 0x14
+ 455 01a3 01       		.byte	0x1
+ 456 01a4 21000000 		.4byte	.LASF22
+ 457 01a8 01       		.byte	0x1
+ 458 01a9 10       		.byte	0x10
+ 459 01aa 01       		.byte	0x1
+ 460 01ab 54000000 		.4byte	.LFB35
+ 461 01af 70000000 		.4byte	.LFE35
+ 462 01b3 02       		.byte	0x2
+ 463 01b4 7D       		.byte	0x7d
+ 464 01b5 00       		.sleb128 0
+ 465 01b6 01       		.byte	0x1
+ 466 01b7 D5010000 		.4byte	0x1d5
+ 467 01bb 15       		.uleb128 0x15
+ 468 01bc C8010000 		.4byte	.LASF23
+ 469 01c0 01       		.byte	0x1
+ 470 01c1 10       		.byte	0x10
+ 471 01c2 88000000 		.4byte	0x88
+ 472 01c6 AD000000 		.4byte	.LLST4
+ 473 01ca 13       		.uleb128 0x13
+ 474 01cb 6E000000 		.4byte	.LVL13
+ 475 01cf 01       		.byte	0x1
+ 476 01d0 48010000 		.4byte	0x148
+ 477 01d4 00       		.byte	0
+ 478 01d5 11       		.uleb128 0x11
+ 479 01d6 01       		.byte	0x1
+ 480 01d7 A1000000 		.4byte	.LASF24
+ 481 01db 01       		.byte	0x1
+ 482 01dc 0B       		.byte	0xb
+ 483 01dd 01       		.byte	0x1
+ 484 01de 70000000 		.4byte	.LFB34
+ 485 01e2 82000000 		.4byte	.LFE34
+ 486 01e6 D9000000 		.4byte	.LLST5
+ 487 01ea 01       		.byte	0x1
+ 488 01eb 12020000 		.4byte	0x212
+ 489 01ef 15       		.uleb128 0x15
+ 490 01f0 C8010000 		.4byte	.LASF23
+ 491 01f4 01       		.byte	0x1
+ 492 01f5 0B       		.byte	0xb
+ 493 01f6 88000000 		.4byte	0x88
+ 494 01fa 05010000 		.4byte	.LLST6
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 11
+
+
+ 495 01fe 10       		.uleb128 0x10
+ 496 01ff 78000000 		.4byte	.LVL15
+ 497 0203 81020000 		.4byte	0x281
+ 498 0207 13       		.uleb128 0x13
+ 499 0208 82000000 		.4byte	.LVL16
+ 500 020c 01       		.byte	0x1
+ 501 020d A2010000 		.4byte	0x1a2
+ 502 0211 00       		.byte	0
+ 503 0212 16       		.uleb128 0x16
+ 504 0213 BF000000 		.4byte	.LASF34
+ 505 0217 06       		.byte	0x6
+ 506 0218 CF06     		.2byte	0x6cf
+ 507 021a 20020000 		.4byte	0x220
+ 508 021e 01       		.byte	0x1
+ 509 021f 01       		.byte	0x1
+ 510 0220 17       		.uleb128 0x17
+ 511 0221 7A000000 		.4byte	0x7a
+ 512 0225 18       		.uleb128 0x18
+ 513 0226 01       		.byte	0x1
+ 514 0227 4D000000 		.4byte	.LASF25
+ 515 022b 05       		.byte	0x5
+ 516 022c 1E       		.byte	0x1e
+ 517 022d 01       		.byte	0x1
+ 518 022e BB000000 		.4byte	0xbb
+ 519 0232 01       		.byte	0x1
+ 520 0233 47020000 		.4byte	0x247
+ 521 0237 19       		.uleb128 0x19
+ 522 0238 88000000 		.4byte	0x88
+ 523 023c 19       		.uleb128 0x19
+ 524 023d C7000000 		.4byte	0xc7
+ 525 0241 19       		.uleb128 0x19
+ 526 0242 93000000 		.4byte	0x93
+ 527 0246 00       		.byte	0
+ 528 0247 1A       		.uleb128 0x1a
+ 529 0248 01       		.byte	0x1
+ 530 0249 E9000000 		.4byte	.LASF28
+ 531 024d 05       		.byte	0x5
+ 532 024e 1C       		.byte	0x1c
+ 533 024f 01       		.byte	0x1
+ 534 0250 01       		.byte	0x1
+ 535 0251 18       		.uleb128 0x18
+ 536 0252 01       		.byte	0x1
+ 537 0253 DC010000 		.4byte	.LASF26
+ 538 0257 05       		.byte	0x5
+ 539 0258 1B       		.byte	0x1b
+ 540 0259 01       		.byte	0x1
+ 541 025a BB000000 		.4byte	0xbb
+ 542 025e 01       		.byte	0x1
+ 543 025f 69020000 		.4byte	0x269
+ 544 0263 19       		.uleb128 0x19
+ 545 0264 88000000 		.4byte	0x88
+ 546 0268 00       		.byte	0
+ 547 0269 18       		.uleb128 0x18
+ 548 026a 01       		.byte	0x1
+ 549 026b F9010000 		.4byte	.LASF27
+ 550 026f 05       		.byte	0x5
+ 551 0270 1D       		.byte	0x1d
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 12
+
+
+ 552 0271 01       		.byte	0x1
+ 553 0272 BB000000 		.4byte	0xbb
+ 554 0276 01       		.byte	0x1
+ 555 0277 81020000 		.4byte	0x281
+ 556 027b 19       		.uleb128 0x19
+ 557 027c 88000000 		.4byte	0x88
+ 558 0280 00       		.byte	0
+ 559 0281 1A       		.uleb128 0x1a
+ 560 0282 01       		.byte	0x1
+ 561 0283 5E000000 		.4byte	.LASF29
+ 562 0287 05       		.byte	0x5
+ 563 0288 19       		.byte	0x19
+ 564 0289 01       		.byte	0x1
+ 565 028a 01       		.byte	0x1
+ 566 028b 00       		.byte	0
+ 567              		.section	.debug_abbrev,"",%progbits
+ 568              	.Ldebug_abbrev0:
+ 569 0000 01       		.uleb128 0x1
+ 570 0001 11       		.uleb128 0x11
+ 571 0002 01       		.byte	0x1
+ 572 0003 25       		.uleb128 0x25
+ 573 0004 0E       		.uleb128 0xe
+ 574 0005 13       		.uleb128 0x13
+ 575 0006 0B       		.uleb128 0xb
+ 576 0007 03       		.uleb128 0x3
+ 577 0008 0E       		.uleb128 0xe
+ 578 0009 1B       		.uleb128 0x1b
+ 579 000a 0E       		.uleb128 0xe
+ 580 000b 11       		.uleb128 0x11
+ 581 000c 01       		.uleb128 0x1
+ 582 000d 12       		.uleb128 0x12
+ 583 000e 01       		.uleb128 0x1
+ 584 000f 10       		.uleb128 0x10
+ 585 0010 06       		.uleb128 0x6
+ 586 0011 00       		.byte	0
+ 587 0012 00       		.byte	0
+ 588 0013 02       		.uleb128 0x2
+ 589 0014 24       		.uleb128 0x24
+ 590 0015 00       		.byte	0
+ 591 0016 0B       		.uleb128 0xb
+ 592 0017 0B       		.uleb128 0xb
+ 593 0018 3E       		.uleb128 0x3e
+ 594 0019 0B       		.uleb128 0xb
+ 595 001a 03       		.uleb128 0x3
+ 596 001b 0E       		.uleb128 0xe
+ 597 001c 00       		.byte	0
+ 598 001d 00       		.byte	0
+ 599 001e 03       		.uleb128 0x3
+ 600 001f 16       		.uleb128 0x16
+ 601 0020 00       		.byte	0
+ 602 0021 03       		.uleb128 0x3
+ 603 0022 0E       		.uleb128 0xe
+ 604 0023 3A       		.uleb128 0x3a
+ 605 0024 0B       		.uleb128 0xb
+ 606 0025 3B       		.uleb128 0x3b
+ 607 0026 0B       		.uleb128 0xb
+ 608 0027 49       		.uleb128 0x49
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 13
+
+
+ 609 0028 13       		.uleb128 0x13
+ 610 0029 00       		.byte	0
+ 611 002a 00       		.byte	0
+ 612 002b 04       		.uleb128 0x4
+ 613 002c 24       		.uleb128 0x24
+ 614 002d 00       		.byte	0
+ 615 002e 0B       		.uleb128 0xb
+ 616 002f 0B       		.uleb128 0xb
+ 617 0030 3E       		.uleb128 0x3e
+ 618 0031 0B       		.uleb128 0xb
+ 619 0032 03       		.uleb128 0x3
+ 620 0033 08       		.uleb128 0x8
+ 621 0034 00       		.byte	0
+ 622 0035 00       		.byte	0
+ 623 0036 05       		.uleb128 0x5
+ 624 0037 04       		.uleb128 0x4
+ 625 0038 01       		.byte	0x1
+ 626 0039 0B       		.uleb128 0xb
+ 627 003a 0B       		.uleb128 0xb
+ 628 003b 3A       		.uleb128 0x3a
+ 629 003c 0B       		.uleb128 0xb
+ 630 003d 3B       		.uleb128 0x3b
+ 631 003e 05       		.uleb128 0x5
+ 632 003f 01       		.uleb128 0x1
+ 633 0040 13       		.uleb128 0x13
+ 634 0041 00       		.byte	0
+ 635 0042 00       		.byte	0
+ 636 0043 06       		.uleb128 0x6
+ 637 0044 28       		.uleb128 0x28
+ 638 0045 00       		.byte	0
+ 639 0046 03       		.uleb128 0x3
+ 640 0047 0E       		.uleb128 0xe
+ 641 0048 1C       		.uleb128 0x1c
+ 642 0049 0D       		.uleb128 0xd
+ 643 004a 00       		.byte	0
+ 644 004b 00       		.byte	0
+ 645 004c 07       		.uleb128 0x7
+ 646 004d 16       		.uleb128 0x16
+ 647 004e 00       		.byte	0
+ 648 004f 03       		.uleb128 0x3
+ 649 0050 0E       		.uleb128 0xe
+ 650 0051 3A       		.uleb128 0x3a
+ 651 0052 0B       		.uleb128 0xb
+ 652 0053 3B       		.uleb128 0x3b
+ 653 0054 05       		.uleb128 0x5
+ 654 0055 49       		.uleb128 0x49
+ 655 0056 13       		.uleb128 0x13
+ 656 0057 00       		.byte	0
+ 657 0058 00       		.byte	0
+ 658 0059 08       		.uleb128 0x8
+ 659 005a 0F       		.uleb128 0xf
+ 660 005b 00       		.byte	0
+ 661 005c 0B       		.uleb128 0xb
+ 662 005d 0B       		.uleb128 0xb
+ 663 005e 49       		.uleb128 0x49
+ 664 005f 13       		.uleb128 0x13
+ 665 0060 00       		.byte	0
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 14
+
+
+ 666 0061 00       		.byte	0
+ 667 0062 09       		.uleb128 0x9
+ 668 0063 01       		.uleb128 0x1
+ 669 0064 01       		.byte	0x1
+ 670 0065 49       		.uleb128 0x49
+ 671 0066 13       		.uleb128 0x13
+ 672 0067 01       		.uleb128 0x1
+ 673 0068 13       		.uleb128 0x13
+ 674 0069 00       		.byte	0
+ 675 006a 00       		.byte	0
+ 676 006b 0A       		.uleb128 0xa
+ 677 006c 21       		.uleb128 0x21
+ 678 006d 00       		.byte	0
+ 679 006e 49       		.uleb128 0x49
+ 680 006f 13       		.uleb128 0x13
+ 681 0070 2F       		.uleb128 0x2f
+ 682 0071 0B       		.uleb128 0xb
+ 683 0072 00       		.byte	0
+ 684 0073 00       		.byte	0
+ 685 0074 0B       		.uleb128 0xb
+ 686 0075 2E       		.uleb128 0x2e
+ 687 0076 01       		.byte	0x1
+ 688 0077 3F       		.uleb128 0x3f
+ 689 0078 0C       		.uleb128 0xc
+ 690 0079 03       		.uleb128 0x3
+ 691 007a 0E       		.uleb128 0xe
+ 692 007b 3A       		.uleb128 0x3a
+ 693 007c 0B       		.uleb128 0xb
+ 694 007d 3B       		.uleb128 0x3b
+ 695 007e 0B       		.uleb128 0xb
+ 696 007f 27       		.uleb128 0x27
+ 697 0080 0C       		.uleb128 0xc
+ 698 0081 49       		.uleb128 0x49
+ 699 0082 13       		.uleb128 0x13
+ 700 0083 11       		.uleb128 0x11
+ 701 0084 01       		.uleb128 0x1
+ 702 0085 12       		.uleb128 0x12
+ 703 0086 01       		.uleb128 0x1
+ 704 0087 40       		.uleb128 0x40
+ 705 0088 06       		.uleb128 0x6
+ 706 0089 9642     		.uleb128 0x2116
+ 707 008b 0C       		.uleb128 0xc
+ 708 008c 01       		.uleb128 0x1
+ 709 008d 13       		.uleb128 0x13
+ 710 008e 00       		.byte	0
+ 711 008f 00       		.byte	0
+ 712 0090 0C       		.uleb128 0xc
+ 713 0091 34       		.uleb128 0x34
+ 714 0092 00       		.byte	0
+ 715 0093 03       		.uleb128 0x3
+ 716 0094 0E       		.uleb128 0xe
+ 717 0095 3A       		.uleb128 0x3a
+ 718 0096 0B       		.uleb128 0xb
+ 719 0097 3B       		.uleb128 0x3b
+ 720 0098 0B       		.uleb128 0xb
+ 721 0099 49       		.uleb128 0x49
+ 722 009a 13       		.uleb128 0x13
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 15
+
+
+ 723 009b 02       		.uleb128 0x2
+ 724 009c 0A       		.uleb128 0xa
+ 725 009d 00       		.byte	0
+ 726 009e 00       		.byte	0
+ 727 009f 0D       		.uleb128 0xd
+ 728 00a0 34       		.uleb128 0x34
+ 729 00a1 00       		.byte	0
+ 730 00a2 03       		.uleb128 0x3
+ 731 00a3 0E       		.uleb128 0xe
+ 732 00a4 3A       		.uleb128 0x3a
+ 733 00a5 0B       		.uleb128 0xb
+ 734 00a6 3B       		.uleb128 0x3b
+ 735 00a7 0B       		.uleb128 0xb
+ 736 00a8 49       		.uleb128 0x49
+ 737 00a9 13       		.uleb128 0x13
+ 738 00aa 02       		.uleb128 0x2
+ 739 00ab 06       		.uleb128 0x6
+ 740 00ac 00       		.byte	0
+ 741 00ad 00       		.byte	0
+ 742 00ae 0E       		.uleb128 0xe
+ 743 00af 898201   		.uleb128 0x4109
+ 744 00b2 01       		.byte	0x1
+ 745 00b3 11       		.uleb128 0x11
+ 746 00b4 01       		.uleb128 0x1
+ 747 00b5 31       		.uleb128 0x31
+ 748 00b6 13       		.uleb128 0x13
+ 749 00b7 01       		.uleb128 0x1
+ 750 00b8 13       		.uleb128 0x13
+ 751 00b9 00       		.byte	0
+ 752 00ba 00       		.byte	0
+ 753 00bb 0F       		.uleb128 0xf
+ 754 00bc 8A8201   		.uleb128 0x410a
+ 755 00bf 00       		.byte	0
+ 756 00c0 02       		.uleb128 0x2
+ 757 00c1 0A       		.uleb128 0xa
+ 758 00c2 9142     		.uleb128 0x2111
+ 759 00c4 0A       		.uleb128 0xa
+ 760 00c5 00       		.byte	0
+ 761 00c6 00       		.byte	0
+ 762 00c7 10       		.uleb128 0x10
+ 763 00c8 898201   		.uleb128 0x4109
+ 764 00cb 00       		.byte	0
+ 765 00cc 11       		.uleb128 0x11
+ 766 00cd 01       		.uleb128 0x1
+ 767 00ce 31       		.uleb128 0x31
+ 768 00cf 13       		.uleb128 0x13
+ 769 00d0 00       		.byte	0
+ 770 00d1 00       		.byte	0
+ 771 00d2 11       		.uleb128 0x11
+ 772 00d3 2E       		.uleb128 0x2e
+ 773 00d4 01       		.byte	0x1
+ 774 00d5 3F       		.uleb128 0x3f
+ 775 00d6 0C       		.uleb128 0xc
+ 776 00d7 03       		.uleb128 0x3
+ 777 00d8 0E       		.uleb128 0xe
+ 778 00d9 3A       		.uleb128 0x3a
+ 779 00da 0B       		.uleb128 0xb
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 16
+
+
+ 780 00db 3B       		.uleb128 0x3b
+ 781 00dc 0B       		.uleb128 0xb
+ 782 00dd 27       		.uleb128 0x27
+ 783 00de 0C       		.uleb128 0xc
+ 784 00df 11       		.uleb128 0x11
+ 785 00e0 01       		.uleb128 0x1
+ 786 00e1 12       		.uleb128 0x12
+ 787 00e2 01       		.uleb128 0x1
+ 788 00e3 40       		.uleb128 0x40
+ 789 00e4 06       		.uleb128 0x6
+ 790 00e5 9742     		.uleb128 0x2117
+ 791 00e7 0C       		.uleb128 0xc
+ 792 00e8 01       		.uleb128 0x1
+ 793 00e9 13       		.uleb128 0x13
+ 794 00ea 00       		.byte	0
+ 795 00eb 00       		.byte	0
+ 796 00ec 12       		.uleb128 0x12
+ 797 00ed 05       		.uleb128 0x5
+ 798 00ee 00       		.byte	0
+ 799 00ef 03       		.uleb128 0x3
+ 800 00f0 08       		.uleb128 0x8
+ 801 00f1 3A       		.uleb128 0x3a
+ 802 00f2 0B       		.uleb128 0xb
+ 803 00f3 3B       		.uleb128 0x3b
+ 804 00f4 0B       		.uleb128 0xb
+ 805 00f5 49       		.uleb128 0x49
+ 806 00f6 13       		.uleb128 0x13
+ 807 00f7 02       		.uleb128 0x2
+ 808 00f8 06       		.uleb128 0x6
+ 809 00f9 00       		.byte	0
+ 810 00fa 00       		.byte	0
+ 811 00fb 13       		.uleb128 0x13
+ 812 00fc 898201   		.uleb128 0x4109
+ 813 00ff 00       		.byte	0
+ 814 0100 11       		.uleb128 0x11
+ 815 0101 01       		.uleb128 0x1
+ 816 0102 9542     		.uleb128 0x2115
+ 817 0104 0C       		.uleb128 0xc
+ 818 0105 31       		.uleb128 0x31
+ 819 0106 13       		.uleb128 0x13
+ 820 0107 00       		.byte	0
+ 821 0108 00       		.byte	0
+ 822 0109 14       		.uleb128 0x14
+ 823 010a 2E       		.uleb128 0x2e
+ 824 010b 01       		.byte	0x1
+ 825 010c 3F       		.uleb128 0x3f
+ 826 010d 0C       		.uleb128 0xc
+ 827 010e 03       		.uleb128 0x3
+ 828 010f 0E       		.uleb128 0xe
+ 829 0110 3A       		.uleb128 0x3a
+ 830 0111 0B       		.uleb128 0xb
+ 831 0112 3B       		.uleb128 0x3b
+ 832 0113 0B       		.uleb128 0xb
+ 833 0114 27       		.uleb128 0x27
+ 834 0115 0C       		.uleb128 0xc
+ 835 0116 11       		.uleb128 0x11
+ 836 0117 01       		.uleb128 0x1
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 17
+
+
+ 837 0118 12       		.uleb128 0x12
+ 838 0119 01       		.uleb128 0x1
+ 839 011a 40       		.uleb128 0x40
+ 840 011b 0A       		.uleb128 0xa
+ 841 011c 9742     		.uleb128 0x2117
+ 842 011e 0C       		.uleb128 0xc
+ 843 011f 01       		.uleb128 0x1
+ 844 0120 13       		.uleb128 0x13
+ 845 0121 00       		.byte	0
+ 846 0122 00       		.byte	0
+ 847 0123 15       		.uleb128 0x15
+ 848 0124 05       		.uleb128 0x5
+ 849 0125 00       		.byte	0
+ 850 0126 03       		.uleb128 0x3
+ 851 0127 0E       		.uleb128 0xe
+ 852 0128 3A       		.uleb128 0x3a
+ 853 0129 0B       		.uleb128 0xb
+ 854 012a 3B       		.uleb128 0x3b
+ 855 012b 0B       		.uleb128 0xb
+ 856 012c 49       		.uleb128 0x49
+ 857 012d 13       		.uleb128 0x13
+ 858 012e 02       		.uleb128 0x2
+ 859 012f 06       		.uleb128 0x6
+ 860 0130 00       		.byte	0
+ 861 0131 00       		.byte	0
+ 862 0132 16       		.uleb128 0x16
+ 863 0133 34       		.uleb128 0x34
+ 864 0134 00       		.byte	0
+ 865 0135 03       		.uleb128 0x3
+ 866 0136 0E       		.uleb128 0xe
+ 867 0137 3A       		.uleb128 0x3a
+ 868 0138 0B       		.uleb128 0xb
+ 869 0139 3B       		.uleb128 0x3b
+ 870 013a 05       		.uleb128 0x5
+ 871 013b 49       		.uleb128 0x49
+ 872 013c 13       		.uleb128 0x13
+ 873 013d 3F       		.uleb128 0x3f
+ 874 013e 0C       		.uleb128 0xc
+ 875 013f 3C       		.uleb128 0x3c
+ 876 0140 0C       		.uleb128 0xc
+ 877 0141 00       		.byte	0
+ 878 0142 00       		.byte	0
+ 879 0143 17       		.uleb128 0x17
+ 880 0144 35       		.uleb128 0x35
+ 881 0145 00       		.byte	0
+ 882 0146 49       		.uleb128 0x49
+ 883 0147 13       		.uleb128 0x13
+ 884 0148 00       		.byte	0
+ 885 0149 00       		.byte	0
+ 886 014a 18       		.uleb128 0x18
+ 887 014b 2E       		.uleb128 0x2e
+ 888 014c 01       		.byte	0x1
+ 889 014d 3F       		.uleb128 0x3f
+ 890 014e 0C       		.uleb128 0xc
+ 891 014f 03       		.uleb128 0x3
+ 892 0150 0E       		.uleb128 0xe
+ 893 0151 3A       		.uleb128 0x3a
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 18
+
+
+ 894 0152 0B       		.uleb128 0xb
+ 895 0153 3B       		.uleb128 0x3b
+ 896 0154 0B       		.uleb128 0xb
+ 897 0155 27       		.uleb128 0x27
+ 898 0156 0C       		.uleb128 0xc
+ 899 0157 49       		.uleb128 0x49
+ 900 0158 13       		.uleb128 0x13
+ 901 0159 3C       		.uleb128 0x3c
+ 902 015a 0C       		.uleb128 0xc
+ 903 015b 01       		.uleb128 0x1
+ 904 015c 13       		.uleb128 0x13
+ 905 015d 00       		.byte	0
+ 906 015e 00       		.byte	0
+ 907 015f 19       		.uleb128 0x19
+ 908 0160 05       		.uleb128 0x5
+ 909 0161 00       		.byte	0
+ 910 0162 49       		.uleb128 0x49
+ 911 0163 13       		.uleb128 0x13
+ 912 0164 00       		.byte	0
+ 913 0165 00       		.byte	0
+ 914 0166 1A       		.uleb128 0x1a
+ 915 0167 2E       		.uleb128 0x2e
+ 916 0168 00       		.byte	0
+ 917 0169 3F       		.uleb128 0x3f
+ 918 016a 0C       		.uleb128 0xc
+ 919 016b 03       		.uleb128 0x3
+ 920 016c 0E       		.uleb128 0xe
+ 921 016d 3A       		.uleb128 0x3a
+ 922 016e 0B       		.uleb128 0xb
+ 923 016f 3B       		.uleb128 0x3b
+ 924 0170 0B       		.uleb128 0xb
+ 925 0171 27       		.uleb128 0x27
+ 926 0172 0C       		.uleb128 0xc
+ 927 0173 3C       		.uleb128 0x3c
+ 928 0174 0C       		.uleb128 0xc
+ 929 0175 00       		.byte	0
+ 930 0176 00       		.byte	0
+ 931 0177 00       		.byte	0
+ 932              		.section	.debug_loc,"",%progbits
+ 933              	.Ldebug_loc0:
+ 934              	.LLST0:
+ 935 0000 00000000 		.4byte	.LFB36-.Ltext0
+ 936 0004 02000000 		.4byte	.LCFI0-.Ltext0
+ 937 0008 0200     		.2byte	0x2
+ 938 000a 7D       		.byte	0x7d
+ 939 000b 00       		.sleb128 0
+ 940 000c 02000000 		.4byte	.LCFI0-.Ltext0
+ 941 0010 34000000 		.4byte	.LCFI1-.Ltext0
+ 942 0014 0200     		.2byte	0x2
+ 943 0016 7D       		.byte	0x7d
+ 944 0017 10       		.sleb128 16
+ 945 0018 34000000 		.4byte	.LCFI1-.Ltext0
+ 946 001c 3C000000 		.4byte	.LFE36-.Ltext0
+ 947 0020 0200     		.2byte	0x2
+ 948 0022 7D       		.byte	0x7d
+ 949 0023 08       		.sleb128 8
+ 950 0024 00000000 		.4byte	0
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 19
+
+
+ 951 0028 00000000 		.4byte	0
+ 952              	.LLST1:
+ 953 002c 14000000 		.4byte	.LVL1-.Ltext0
+ 954 0030 18000000 		.4byte	.LVL2-.Ltext0
+ 955 0034 0500     		.2byte	0x5
+ 956 0036 74       		.byte	0x74
+ 957 0037 00       		.sleb128 0
+ 958 0038 38       		.byte	0x38
+ 959 0039 24       		.byte	0x24
+ 960 003a 9F       		.byte	0x9f
+ 961 003b 18000000 		.4byte	.LVL2-.Ltext0
+ 962 003f 2C000000 		.4byte	.LVL5-.Ltext0
+ 963 0043 0100     		.2byte	0x1
+ 964 0045 54       		.byte	0x54
+ 965 0046 2C000000 		.4byte	.LVL5-.Ltext0
+ 966 004a 2F000000 		.4byte	.LVL6-1-.Ltext0
+ 967 004e 0800     		.2byte	0x8
+ 968 0050 F5       		.byte	0xf5
+ 969 0051 00       		.uleb128 0
+ 970 0052 25       		.uleb128 0x25
+ 971 0053 F7       		.byte	0xf7
+ 972 0054 2C       		.uleb128 0x2c
+ 973 0055 F7       		.byte	0xf7
+ 974 0056 00       		.uleb128 0
+ 975 0057 9F       		.byte	0x9f
+ 976 0058 00000000 		.4byte	0
+ 977 005c 00000000 		.4byte	0
+ 978              	.LLST2:
+ 979 0060 3C000000 		.4byte	.LFB37-.Ltext0
+ 980 0064 3E000000 		.4byte	.LCFI2-.Ltext0
+ 981 0068 0200     		.2byte	0x2
+ 982 006a 7D       		.byte	0x7d
+ 983 006b 00       		.sleb128 0
+ 984 006c 3E000000 		.4byte	.LCFI2-.Ltext0
+ 985 0070 50000000 		.4byte	.LCFI3-.Ltext0
+ 986 0074 0200     		.2byte	0x2
+ 987 0076 7D       		.byte	0x7d
+ 988 0077 08       		.sleb128 8
+ 989 0078 50000000 		.4byte	.LCFI3-.Ltext0
+ 990 007c 54000000 		.4byte	.LFE37-.Ltext0
+ 991 0080 0200     		.2byte	0x2
+ 992 0082 7D       		.byte	0x7d
+ 993 0083 00       		.sleb128 0
+ 994 0084 00000000 		.4byte	0
+ 995 0088 00000000 		.4byte	0
+ 996              	.LLST3:
+ 997 008c 3C000000 		.4byte	.LVL7-.Ltext0
+ 998 0090 42000000 		.4byte	.LVL8-.Ltext0
+ 999 0094 0100     		.2byte	0x1
+ 1000 0096 50       		.byte	0x50
+ 1001 0097 42000000 		.4byte	.LVL8-.Ltext0
+ 1002 009b 54000000 		.4byte	.LFE37-.Ltext0
+ 1003 009f 0400     		.2byte	0x4
+ 1004 00a1 F3       		.byte	0xf3
+ 1005 00a2 01       		.uleb128 0x1
+ 1006 00a3 50       		.byte	0x50
+ 1007 00a4 9F       		.byte	0x9f
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 20
+
+
+ 1008 00a5 00000000 		.4byte	0
+ 1009 00a9 00000000 		.4byte	0
+ 1010              	.LLST4:
+ 1011 00ad 54000000 		.4byte	.LVL12-.Ltext0
+ 1012 00b1 6D000000 		.4byte	.LVL13-1-.Ltext0
+ 1013 00b5 0100     		.2byte	0x1
+ 1014 00b7 50       		.byte	0x50
+ 1015 00b8 6D000000 		.4byte	.LVL13-1-.Ltext0
+ 1016 00bc 6E000000 		.4byte	.LVL13-.Ltext0
+ 1017 00c0 0400     		.2byte	0x4
+ 1018 00c2 F3       		.byte	0xf3
+ 1019 00c3 01       		.uleb128 0x1
+ 1020 00c4 50       		.byte	0x50
+ 1021 00c5 9F       		.byte	0x9f
+ 1022 00c6 6E000000 		.4byte	.LVL13-.Ltext0
+ 1023 00ca 70000000 		.4byte	.LFE35-.Ltext0
+ 1024 00ce 0100     		.2byte	0x1
+ 1025 00d0 50       		.byte	0x50
+ 1026 00d1 00000000 		.4byte	0
+ 1027 00d5 00000000 		.4byte	0
+ 1028              	.LLST5:
+ 1029 00d9 70000000 		.4byte	.LFB34-.Ltext0
+ 1030 00dd 72000000 		.4byte	.LCFI4-.Ltext0
+ 1031 00e1 0200     		.2byte	0x2
+ 1032 00e3 7D       		.byte	0x7d
+ 1033 00e4 00       		.sleb128 0
+ 1034 00e5 72000000 		.4byte	.LCFI4-.Ltext0
+ 1035 00e9 7E000000 		.4byte	.LCFI5-.Ltext0
+ 1036 00ed 0200     		.2byte	0x2
+ 1037 00ef 7D       		.byte	0x7d
+ 1038 00f0 08       		.sleb128 8
+ 1039 00f1 7E000000 		.4byte	.LCFI5-.Ltext0
+ 1040 00f5 82000000 		.4byte	.LFE34-.Ltext0
+ 1041 00f9 0200     		.2byte	0x2
+ 1042 00fb 7D       		.byte	0x7d
+ 1043 00fc 00       		.sleb128 0
+ 1044 00fd 00000000 		.4byte	0
+ 1045 0101 00000000 		.4byte	0
+ 1046              	.LLST6:
+ 1047 0105 70000000 		.4byte	.LVL14-.Ltext0
+ 1048 0109 77000000 		.4byte	.LVL15-1-.Ltext0
+ 1049 010d 0100     		.2byte	0x1
+ 1050 010f 50       		.byte	0x50
+ 1051 0110 77000000 		.4byte	.LVL15-1-.Ltext0
+ 1052 0114 82000000 		.4byte	.LFE34-.Ltext0
+ 1053 0118 0400     		.2byte	0x4
+ 1054 011a F3       		.byte	0xf3
+ 1055 011b 01       		.uleb128 0x1
+ 1056 011c 50       		.byte	0x50
+ 1057 011d 9F       		.byte	0x9f
+ 1058 011e 00000000 		.4byte	0
+ 1059 0122 00000000 		.4byte	0
+ 1060              		.section	.debug_aranges,"",%progbits
+ 1061 0000 1C000000 		.4byte	0x1c
+ 1062 0004 0200     		.2byte	0x2
+ 1063 0006 00000000 		.4byte	.Ldebug_info0
+ 1064 000a 04       		.byte	0x4
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 21
+
+
+ 1065 000b 00       		.byte	0
+ 1066 000c 0000     		.2byte	0
+ 1067 000e 0000     		.2byte	0
+ 1068 0010 00000000 		.4byte	.Ltext0
+ 1069 0014 82000000 		.4byte	.Letext0-.Ltext0
+ 1070 0018 00000000 		.4byte	0
+ 1071 001c 00000000 		.4byte	0
+ 1072              		.section	.debug_line,"",%progbits
+ 1073              	.Ldebug_line0:
+ 1074 0000 B5010000 		.section	.debug_str,"MS",%progbits,1
+ 1074      02008301 
+ 1074      00000201 
+ 1074      FB0E0D00 
+ 1074      01010101 
+ 1075              	.LASF9:
+ 1076 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1076      206C6F6E 
+ 1076      6720696E 
+ 1076      7400
+ 1077              	.LASF5:
+ 1078 000e 5F5F7569 		.ascii	"__uint8_t\000"
+ 1078      6E74385F 
+ 1078      7400
+ 1079              	.LASF19:
+ 1080 0018 64617461 		.ascii	"dataRecv\000"
+ 1080      52656376 
+ 1080      00
+ 1081              	.LASF22:
+ 1082 0021 42483137 		.ascii	"BH1750configure\000"
+ 1082      3530636F 
+ 1082      6E666967 
+ 1082      75726500 
+ 1083              	.LASF0:
+ 1084 0031 646F7562 		.ascii	"double\000"
+ 1084      6C6500
+ 1085              	.LASF33:
+ 1086 0038 42483137 		.ascii	"BH1750readLightLevel\000"
+ 1086      35307265 
+ 1086      61644C69 
+ 1086      6768744C 
+ 1086      6576656C 
+ 1087              	.LASF25:
+ 1088 004d 49324331 		.ascii	"I2C1_RequestFrom\000"
+ 1088      5F526571 
+ 1088      75657374 
+ 1088      46726F6D 
+ 1088      00
+ 1089              	.LASF29:
+ 1090 005e 49324331 		.ascii	"I2C1_Init\000"
+ 1090      5F496E69 
+ 1090      7400
+ 1091              	.LASF10:
+ 1092 0068 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1092      206C6F6E 
+ 1092      6720756E 
+ 1092      7369676E 
+ 1092      65642069 
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 22
+
+
+ 1093              	.LASF3:
+ 1094 007f 756E7369 		.ascii	"unsigned char\000"
+ 1094      676E6564 
+ 1094      20636861 
+ 1094      7200
+ 1095              	.LASF16:
+ 1096 008d 53554343 		.ascii	"SUCCESS\000"
+ 1096      45535300 
+ 1097              	.LASF17:
+ 1098 0095 4572726F 		.ascii	"ErrorStatus\000"
+ 1098      72537461 
+ 1098      74757300 
+ 1099              	.LASF24:
+ 1100 00a1 42483137 		.ascii	"BH1750Init\000"
+ 1100      3530496E 
+ 1100      697400
+ 1101              	.LASF1:
+ 1102 00ac 73686F72 		.ascii	"short unsigned int\000"
+ 1102      7420756E 
+ 1102      7369676E 
+ 1102      65642069 
+ 1102      6E7400
+ 1103              	.LASF34:
+ 1104 00bf 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1104      52784275 
+ 1104      66666572 
+ 1104      00
+ 1105              	.LASF6:
+ 1106 00cc 5F5F7569 		.ascii	"__uint16_t\000"
+ 1106      6E743136 
+ 1106      5F7400
+ 1107              	.LASF8:
+ 1108 00d7 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1108      20756E73 
+ 1108      69676E65 
+ 1108      6420696E 
+ 1108      7400
+ 1109              	.LASF28:
+ 1110 00e9 49324331 		.ascii	"I2C1_EndTransmission\000"
+ 1110      5F456E64 
+ 1110      5472616E 
+ 1110      736D6973 
+ 1110      73696F6E 
+ 1111              	.LASF4:
+ 1112 00fe 73686F72 		.ascii	"short int\000"
+ 1112      7420696E 
+ 1112      7400
+ 1113              	.LASF30:
+ 1114 0108 474E5520 		.ascii	"GNU C 4.9.3 20150529 (release) [ARM/embedded-4_9-br"
+ 1114      4320342E 
+ 1114      392E3320 
+ 1114      32303135 
+ 1114      30353239 
+ 1115 013b 616E6368 		.ascii	"anch revision 227977] -mcpu=cortex-m3 -mthumb -gdwa"
+ 1115      20726576 
+ 1115      6973696F 
+ 1115      6E203232 
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 23
+
+
+ 1115      37393737 
+ 1116 016e 72662D32 		.ascii	"rf-2 -Os -fomit-frame-pointer\000"
+ 1116      202D4F73 
+ 1116      202D666F 
+ 1116      6D69742D 
+ 1116      6672616D 
+ 1117              	.LASF31:
+ 1118 018c 4C696272 		.ascii	"Libraries/Drivers/BH1750/bh1750.c\000"
+ 1118      61726965 
+ 1118      732F4472 
+ 1118      69766572 
+ 1118      732F4248 
+ 1119              	.LASF11:
+ 1120 01ae 756E7369 		.ascii	"unsigned int\000"
+ 1120      676E6564 
+ 1120      20696E74 
+ 1120      00
+ 1121              	.LASF18:
+ 1122 01bb 63686172 		.ascii	"char\000"
+ 1122      00
+ 1123              	.LASF12:
+ 1124 01c0 75696E74 		.ascii	"uint8_t\000"
+ 1124      385F7400 
+ 1125              	.LASF23:
+ 1126 01c8 6D6F6465 		.ascii	"mode\000"
+ 1126      00
+ 1127              	.LASF15:
+ 1128 01cd 4552524F 		.ascii	"ERROR\000"
+ 1128      5200
+ 1129              	.LASF14:
+ 1130 01d3 73697A65 		.ascii	"sizetype\000"
+ 1130      74797065 
+ 1130      00
+ 1131              	.LASF26:
+ 1132 01dc 49324331 		.ascii	"I2C1_BeginTransmission\000"
+ 1132      5F426567 
+ 1132      696E5472 
+ 1132      616E736D 
+ 1132      69737369 
+ 1133              	.LASF20:
+ 1134 01f3 6C657665 		.ascii	"level\000"
+ 1134      6C00
+ 1135              	.LASF27:
+ 1136 01f9 49324331 		.ascii	"I2C1_Write\000"
+ 1136      5F577269 
+ 1136      746500
+ 1137              	.LASF21:
+ 1138 0204 77726974 		.ascii	"write8\000"
+ 1138      653800
+ 1139              	.LASF13:
+ 1140 020b 75696E74 		.ascii	"uint16_t\000"
+ 1140      31365F74 
+ 1140      00
+ 1141              	.LASF7:
+ 1142 0214 6C6F6E67 		.ascii	"long int\000"
+ 1142      20696E74 
+ 1142      00
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 24
+
+
+ 1143              	.LASF2:
+ 1144 021d 7369676E 		.ascii	"signed char\000"
+ 1144      65642063 
+ 1144      68617200 
+ 1145              	.LASF32:
+ 1146 0229 2F557365 		.ascii	"/Users/ingamedeo/Downloads/STM32F103RBT6FreeRTOS\000"
+ 1146      72732F69 
+ 1146      6E67616D 
+ 1146      6564656F 
+ 1146      2F446F77 
+ 1147              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150529 (release) [ARM/embedded-4_9-br
+ARM GAS  /var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s 			page 25
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 bh1750.c
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:76     .text:0000000000000000 $t
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:81     .text:0000000000000000 BH1750readLightLevel
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:130    .text:0000000000000038 $d
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:134    .text:000000000000003c $t
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:139    .text:000000000000003c write8
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:179    .text:0000000000000054 BH1750configure
+/var/folders/yt/6z6x8bjn5sjf5fbb45bk5m4c0000gn/T//ccbigcnn.s:208    .text:0000000000000070 BH1750Init
+                     .debug_frame:0000000000000010 $d
+
+UNDEFINED SYMBOLS
+__aeabi_i2d
+__aeabi_ddiv
+__aeabi_d2uiz
+I2C1_RequestFrom
+I2C1_EndTransmission
+I2C1_BeginTransmission
+I2C1_Write
+I2C1_Init

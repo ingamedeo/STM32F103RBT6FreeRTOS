@@ -6,6 +6,7 @@
 #define MYTASKS_H_
 #include "STM32f10x.h"
 #include "FreeRTOS.h"
+//#include "printf-stdarg.h"
 #include "delay.h"
 #include "task.h"
 #include "queue.h"
@@ -16,7 +17,7 @@
 #include "usart.h"
 #include "i2c1_remap.h"
 #include "bh1750.h"
-#include "main.h"
+
 #define DEBOUNCECOUNTS 10
 extern QueueHandle_t RxQueue, TxQueue;
 void vLEDFlashTask( void *pvParameters );
