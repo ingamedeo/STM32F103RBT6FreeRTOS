@@ -151,10 +151,10 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-void EXTI0_IRQHandler(void)
-{
-
-}
+//void EXTI0_IRQHandler(void)
+//{
+//
+//}
 void EXTI3_IRQHandler(void)
 {
 

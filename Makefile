@@ -43,6 +43,7 @@ UADEFS =
 
 # List C source files here
 LIBSDIR    = ./Libraries
+LIBCDIR = $(LIBSDIR)/libc
 CORELIBDIR = $(LIBSDIR)/CMSIS/CM3/CoreSupport
 DEVDIR  = $(LIBSDIR)/CMSIS/CM3/DeviceSupport/ST/STM32F10x
 STMSPDDIR    = $(LIBSDIR)/STM32F10x_StdPeriph_Driver
@@ -132,6 +133,7 @@ UINCDIR += $(SPIFLASH)
 UINCDIR += $(UTILITIES)
 UINCDIR += $(FREERTOSINC)
 UINCDIR += $(FREERTOSCM3)
+
 # List the user directory to look for the libraries here
 ULIBDIR =
 

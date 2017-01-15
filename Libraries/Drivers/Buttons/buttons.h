@@ -13,5 +13,6 @@
 #define BPORT				GPIOC
 #define BPORTCLK			RCC_APB2Periph_GPIOC
 void ButtonsInit(void);
+void ButtonsInitEXTI(void);
 uint32_t ButtonRead(GPIO_TypeDef* Button_Port, uint16_t Button);
 #endif /* BUTTONS_H_ */

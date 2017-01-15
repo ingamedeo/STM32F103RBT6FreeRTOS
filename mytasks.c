@@ -3,9 +3,9 @@
  */
 #include "mytasks.h"
 #include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //const char * const pcUsartTaskStartMsg = "Hello STM32F103RBT6!\r\n";
 //const char * const pcLCDTaskStartMsg = "   LCD task started.";
@@ -18,7 +18,6 @@ char stringbuffer[50];
 // 1 * 200ms on, 4 * 200ms off
 void vLEDFlashTask( void *pvParameters ) {
   TickType_t xLastWakeTime;
-  const TickType_t xFrequency = 200;
   xLastWakeTime=xTaskGetTickCount();
   int count = 0;
     for( ;; ) {
@@ -34,7 +33,7 @@ void vLEDFlashTask( void *pvParameters ) {
 		  }
 	  }
 	   
-	  vTaskDelayUntil(&xLastWakeTime,xFrequency);
+	  vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
 	  }
 }
 
@@ -242,16 +241,16 @@ void vUSARTTask( void *pvParameters ) {
 	  //USART1PutString(stringbuffer,strlen( stringbuffer ));
 	  //sprintf(stringbuffer, "Light: %d lux\r\n", light);
 	  
-	  char* start = "Light: ";
-	  strcpy( stringbuffer, start );
+	  //char* start = "Light: ";
+	  //strcpy( stringbuffer, start );
 	  
-	  char lightstr[20];
-	  from_uint16_t_to_chars(lightstr, count_digits(light), light);
+	  //char lightstr[20];
+	  //from_uint16_t_to_chars(lightstr, count_digits(light), light);
 	  
-	  strcat(stringbuffer, lightstr);
-	  strcat(stringbuffer, " lux \r\n\0");
+	  //strcat(stringbuffer, lightstr);
+	  //strcat(stringbuffer, " lux \r\n\0");
 	  
-	  USART1PutString(stringbuffer,strlen( stringbuffer ));
+	  //USART1PutString(stringbuffer,strlen( stringbuffer ));
 	  
       //Echo back
       //if (Usart1GetChar(&ch))
